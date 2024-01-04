@@ -1,0 +1,18 @@
+steps:
+  # Build the container image - team1-backend is the name of project
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/team1-backend', '.']
+    env:
+      - 'DB_URL=jdbc:postgresql://mypostgres.postgres.database.azure.com:5432/navigation'
+      - 'DB_USER=postgres'
+      - 'DB_PASSWORD=Cristian1981.'
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/team1-backend']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy',  'team1-backend', '--image', 'gcr.io/$PROJECT_ID/team1-backend',  '--region', 'us-central1', '--platform', 'managed',
+           '--allow-unauthenticated']
+images:
+  - 'gcr.io/$PROJECT_ID/team1-backend'

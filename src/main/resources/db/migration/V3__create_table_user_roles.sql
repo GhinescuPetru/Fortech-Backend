@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS user_roles(
+id_user int NOT NULL,
+id_role int NOT NULL,
+PRIMARY KEY(id_user, id_role),
+CONSTRAINT user_roles_fk1 FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT user_roles_fk2 FOREIGN KEY(id_role) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
